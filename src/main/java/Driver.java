@@ -1,13 +1,31 @@
 import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvValidationException;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Driver {
+    public static void writeIntoCSV(){
+        String fileName = "/Users/vaisakhkrishnank/IdeaProjects/Annotations/src/input.csv";
+        try{
+            CSVWriter writer = new CSVWriter(new FileWriter(fileName, true));
+            List<String[]> data = new ArrayList<>();
+            String[] data1 = {"Vaisakh", "vaisakh@example.com", "+91-1234567890", "India"};
+            String[] data2 = {"Vaisakh Krishnan", "vaisakhkrishnan@example.com", "+91-1234567891", "India"};
+            data.add(data1);
+            data.add(data2);
+            writer.writeAll(data);
+            writer.close();
+        } catch (IOException err) {
+            err.printStackTrace();
+        }
+    }
     public static void readOneByOne(){
         String fileName = "/Users/vaisakhkrishnank/IdeaProjects/Annotations/src/input.csv";
         try{
@@ -78,7 +96,9 @@ public class Driver {
         }
     }
     public static void main(String[] args) {
+        writeIntoCSV();
         readOneByOne();
         readAllTogether();
+
     }
 }
