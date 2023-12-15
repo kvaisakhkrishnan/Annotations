@@ -1,3 +1,6 @@
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
@@ -11,6 +14,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Driver {
+    public static void writeIntoJSON() {
+        String fileName = "/Users/vaisakhkrishnank/IdeaProjects/Annotations/src/input.csv";
+        String jsonFile = "/Users/vaisakhkrishnank/IdeaProjects/Annotations/src/output.json";
+        try {
+            CSVReader reader = new CSVReader(new FileReader(fileName));
+            Gson gson = new Gson();
+            List<String[]> data;
+            data = reader.readAll();
+
+            List<JsonObject> jsonObjects = new ArrayList<>();
+
+            for (String[] inp : data) {
+                JsonObject obj = new JsonObject();
+                obj.addProperty("name", inp[0]);
+                obj.addProperty("email", inp[1]);
+                obj.addProperty("phone", inp[2]);
+                obj.addProperty("country", inp[3]);
+                jsonObjects.add(obj);
+            }
+
+            try (FileWriter writer = new FileWriter(jsonFile)) {
+                gson.toJson(jsonObjects, writer);
+            }
+
+        } catch (IOException | CsvException err) {
+            err.printStackTrace();
+        }
+    }
+
     public static void writeIntoCSV(){
         String fileName = "/Users/vaisakhkrishnank/IdeaProjects/Annotations/src/input.csv";
         try{
@@ -96,9 +128,10 @@ public class Driver {
         }
     }
     public static void main(String[] args) {
-        writeIntoCSV();
-        readOneByOne();
-        readAllTogether();
+        //writeIntoCSV();
+        writeIntoJSON();
+        //readOneByOne();
+        //readAllTogether();
 
     }
 }
